@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +24,11 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 public static int CAPTURA_IMAGEN=1;
-
+    private Uri mContentUri;
     public final int CAPTURA=0;
-Button cameraButton;
+    private final static int GRABAR_VIDEO = 1;
+
+    Button cameraButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +42,8 @@ Button cameraButton;
             }
         });
 
-     //   requestPermissions(new String[]{"android.permission.CAMERA"},CAPTURA);
-        requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"},CAPTURA);
+        requestPermissions(new String[]{"android.permission.CAMERA"},CAPTURA);
+       requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"},CAPTURA);
 
 
     }
@@ -62,6 +65,12 @@ Button cameraButton;
 
 
 
+    public void AnadirAGaleria(Uri contentUri){
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -71,6 +80,15 @@ Button cameraButton;
             Bitmap imagen = (Bitmap) extras.get("data");
             v.setImageBitmap(imagen);
         }
+
+        if(requestCode==GRABAR_VIDEO && resultCode==RESULT_OK) {
+            mContentUri = data.getData();
+            AnadirAGaleria(mContentUri);
+            VideoView videoView = (VideoView) findViewById(R.id.videoView);
+            videoView.setVideoURI(data.getData());
+            videoView.start();
+        }
+
     }
 
 
@@ -109,4 +127,23 @@ Button cameraButton;
             }
         }
     }
+
+    public void comenzarGrabacion(View view){
+        // Creación del intent
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        // El vídeo se grabará en calidad baja (0)
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+        // Limitamos la duración de la grabación a 5 segundos
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 5);
+        // Nos aseguramos de que haya una aplicación que pueda manejar el intent
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            // Lanzamos el intent
+            startActivityForResult(intent, GRABAR_VIDEO);
+        }
+    }
+
+
+
+
+
 }

@@ -10,7 +10,7 @@
         android:id="@+id/buttonCamara"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cámara"
+        android:text="Foto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.157"
@@ -20,23 +20,46 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonCamara"
+        android:layout_width="293dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="74dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonCamara"
-        app:layout_constraintTop_toTopOf="@+id/buttonCamara"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFoto2"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <Button
         android:id="@+id/buttonFoto2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
         android:onClick="hacerFoto2"
+        android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/buttonCamara"
         app:layout_constraintStart_toStartOf="@+id/buttonCamara"
         app:layout_constraintTop_toBottomOf="@+id/buttonCamara"
         app:layout_constraintVertical_bias="0.113" />
+
+    <Button
+        android:id="@+id/buttonVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Video"
+        android:onClick="comenzarGrabacion"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonCamara"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonCamara"
+        app:layout_constraintTop_toTopOf="@+id/buttonCamara" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="394dp"
+        android:layout_height="211dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.393" />
 </androidx.constraintlayout.widget.ConstraintLayout>
